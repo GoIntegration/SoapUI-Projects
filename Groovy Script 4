@@ -1,0 +1,10 @@
+if (context.currentEndpoint != null) {
+	log.info "Running all test steps for endpoint: " + context.currentEndpoint
+	for (ts in  testRunner.testCase.getTestSteps()){
+		if (! ts.getKey().contains("Groovy")) {
+			ts.getValue().getHttpRequest().setEndpoint(context.currentEndpoint)
+		}
+	}
+} else {
+	testRunner.gotoStepByName( "Groovy Script 2" )
+}
