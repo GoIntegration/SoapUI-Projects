@@ -1,0 +1,4 @@
+if(context.loopIndex < context.loopMax )
+	testRunner.gotoStepByName( "Groovy Script 3" )
+else 
+	log.info "Done with all endpoints"
