@@ -1,0 +1,44 @@
+if (context.loopIndex == null) {
+	context.endPointList = testRunner.testCase.testSuite.project.getInterfaceByName( testRunner.testCase.name.split(" ")[0] ).getEndpoints()
+	log.info "Interface name: " + testRunner.testCase.name.split(" ")[0]
+	context.COVERAGE = testRunner.testCase.name.split(" ")[1]
+	log.info "context.COVERAGE: " + context.COVERAGE
+
+	context.loopIndex = 0
+	context.loopMax = context.endPointList.size()
+	log.info "Context.loopMax: " + context.loopMax
+}
+
+log.info "Context.loopIndex: " + context.loopIndex
+context.currentEndpoint = null
+if(context.loopIndex < context.loopMax ) {
+	endpoint = context.endPointList[context.loopIndex++]
+	// log.info "Current endpoint: " + endpoint
+	switch (context.COVERAGE) {
+		case "ALL":
+			if (!(endpoint.contains("localhost"))) {
+				context.currentEndpoint = endpoint
+			}
+			break
+		case "PRD":
+			if (! (endpoint.contains("ldq") || endpoint.contains("qa") || endpoint.contains("localhost") || endpoint.contains("dzm"))) {
+				context.currentEndpoint = endpoint
+			}
+			break
+		case "QUA":
+			if (endpoint.contains("ldq") || endpoint.contains("qa")) {
+				context.currentEndpoint = endpoint
+			} 
+			break
+		case "DEV":
+			if (endpoint.contains("dzm")) {
+				context.currentEndpoint = endpoint
+			} 
+			break	
+		case "LCL":
+			if (endpoint.contains("localhost")) {
+				context.currentEndpoint = endpoint
+			} 
+			break
+	}
+}
